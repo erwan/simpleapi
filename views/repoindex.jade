@@ -4,7 +4,9 @@ block body
     div.welcome
         h1 Simple API for #{domain}
         p Retrieve Prismic documents with this API
+
     div.request-form
+        h2 One document by uid
         form(name="request-api", id="form-request", action="/api")
             div.input
                 label(for="document-type") Document type
@@ -13,7 +15,12 @@ block body
                 label(for="uid") UID
                 input(type="text", name="uid", required="true")
             div.actions
-              input(type="submit", value="Submit")
+                input(type="submit", value="Submit")
+        h2 Documents by type
+        p TODO with autocomplete on type
+        h2 Documents by id
+        p TODO with autocomplete on bookmarks
+
     div(id="api-call")
     div.result
         textarea(id="result")
