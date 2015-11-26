@@ -5,18 +5,9 @@ block body
         h1 Prismic Simple API
         p Retrieve Prismic documents with this API
     div.request-form
-        form(name="request-api", id="form-request", action="/api")
+        form(name="torepo", id="form-torepo", action="/torepo")
             div.input
                 label(for="repository") Repository
                 input(type="text", name="repository", required="true")
-            div.input
-                label(for="document-type") Document type
-                input(type="text", name="document-type", required="true")
-            div.input
-                label(for="uid") UID
-                input(type="text", name="uid", required="true")
             div.actions
               input(type="submit", value="Submit")
-    div(id="api-call")
-    div.result
-        textarea(id="result")

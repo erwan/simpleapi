@@ -17,9 +17,6 @@ var express = require('express'),
 
 var app = express();
 
-
-
-
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -42,41 +39,53 @@ function handleError(err, req, res) {
   }
 }
 
-// Routes
-app.route('/').get(function(req, res){
-  res.render('index');
-});
+function parseDomain(host) {
+  var arr = host.split(".");
+  if (arr.length === 3) return arr[0];
+  return null;
+}
 
-// Routes
-app.route('/api/:repository/:docType/:uid').get(function(req, res){
-  // Prismic configuration
-  // TODO case for protected repository and linkResolver configuration
+function init(domain) {
   var configuration = {
-    apiEndpoint: 'https://'+req.params.repository+'.prismic.io/api',
-    // -- Access token if the Master is not open
-    // accessToken: 'xxxxxx',
-    // OAuth
-    // clientId: 'xxxxxx',
-    // clientSecret: 'xxxxxx',
-
-    // -- Links resolution rules
-    // This function will be used to generate links to Prismic.io documents
-    // As your project grows, you should update this function according to your routes
+    apiEndpoint: 'https://'+domain+'.prismic.io/api',
     linkResolver: function(doc, ctx) {
-      return '/';
+      return '/' + doc.type + "/" + doc.id;
     }
   };
-
   prismic.init(configuration);
-  //call the prismic repository with the query parameters
-  var p = prismic.withContext(req,res);
+}
+
+// Routes
+app.route('/').get(function(req, res){
+  var domain = parseDomain(req.headers.host);
+  if (domain) {
+    init(domain);
+    res.render('repoindex', {domain: domain});
+  } else {
+    res.render('index');
+  }
+});
+
+app.route('/torepo').get(function(req, res) {
+  var target = req.query.repository;
+  res.redirect("http://" + target + "." + req.headers.host);
+});
+
+app.route('/api/:docType/:uid').get(function(req, res){
+  var domain = parseDomain(req.headers.host);
+  if (domain) {
+    init(domain);
+    var p = prismic.withContext(req,res);
     p.getByUID(req.params.docType, req.params.uid, function (err, postContent) {
       if(err) return handleError(err, req, res);
       res.render('result', {
         postContent: postContent
       });
     });
-  });
+  } else {
+    res.render('TODO: redirige vers le formulaire pour saisir le domaine');
+  }
+});
 
 app.route('/preview').get(prismic.preview);
 

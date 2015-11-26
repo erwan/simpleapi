@@ -1,4 +1,6 @@
 $(function() {
+  "use strict";
+
   $("#form-request").submit(function(event) {
     $("#result").html("");
     event.preventDefault();
@@ -10,7 +12,7 @@ $(function() {
       baseUrl = $form.attr( "action" );
 
 
-    var url = [baseUrl, repository, docType, uid].filter(
+    var url = "http://" + window.location.host + [baseUrl, repository, docType, uid].filter(
       function (val) {
         return val;
       }
@@ -24,5 +26,5 @@ $(function() {
       console.log(data);
       $("#result").html(data);
     });
-  })
+  });
 });

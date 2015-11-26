@@ -1,7 +1,16 @@
 # simpleapi
-Clone this repository and run this in your newly created directory:
+
+To run:
 
 ```sh
 npm install
 node app
 ```
+
+Using Pow:
+```
+echo 3000 > ~/.pow/simpleapi
+```
+
+Then the app is available on http://simpleapi.dev
+

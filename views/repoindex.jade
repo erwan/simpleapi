@@ -1,0 +1,19 @@
+extends ./layout.jade
+
+block body
+    div.welcome
+        h1 Simple API for #{domain}
+        p Retrieve Prismic documents with this API
+    div.request-form
+        form(name="request-api", id="form-request", action="/api")
+            div.input
+                label(for="document-type") Document type
+                input(type="text", name="document-type", required="true")
+            div.input
+                label(for="uid") UID
+                input(type="text", name="uid", required="true")
+            div.actions
+              input(type="submit", value="Submit")
+    div(id="api-call")
+    div.result
+        textarea(id="result")
