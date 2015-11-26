@@ -71,6 +71,29 @@ app.route('/torepo').get(function(req, res) {
   res.redirect("http://" + target + "." + req.headers.host);
 });
 
+app.route('/api/:docType').get(function(req, res){
+  var domain = parseDomain(req.headers.host);
+  if (domain) {
+    init(domain);
+    var p = prismic.withContext(req,res);
+    p.query(prismic.Predicates.at('document.type', req.params.docType), {}, function (err, response) {
+      if(err) return handleError(err, req, res);
+      res.json({
+        page: response.page,
+        results_per_page: response.results_per_page,
+        results_size: response.results_size,
+        total_results_size: response.total_results_size,
+        total_pages: response.total_pages,
+        next_page: response.next_page,
+        prev_page: response.prev_page,
+        results: response.results.map(function(d){return d.data;})
+      });
+    });
+  } else {
+    res.send('404 Not Found', 404);
+  }
+});
+
 app.route('/api/:docType/:uid').get(function(req, res){
   var domain = parseDomain(req.headers.host);
   if (domain) {
@@ -78,12 +101,11 @@ app.route('/api/:docType/:uid').get(function(req, res){
     var p = prismic.withContext(req,res);
     p.getByUID(req.params.docType, req.params.uid, function (err, postContent) {
       if(err) return handleError(err, req, res);
-      res.render('result', {
-        postContent: postContent
-      });
+      delete postContent.fragments;
+      res.json(postContent);
     });
   } else {
-    res.render('TODO: redirige vers le formulaire pour saisir le domaine');
+    res.send('404 Not Found', 404);
   }
 });
 
