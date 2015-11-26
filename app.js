@@ -12,15 +12,12 @@ var express = require('express'),
     errorHandler = require('errorhandler'),
     http = require('http'),
     path = require('path'),
-    prismic = require('express-prismic').Prismic,
-    configuration = require('./prismic-configuration').Configuration;
+    prismic = require('express-prismic').Prismic;
 
 
 var app = express();
 
-// Prismic.io configuration
 
-prismic.init(configuration);
 
 
 // all environments
@@ -49,6 +46,37 @@ function handleError(err, req, res) {
 app.route('/').get(function(req, res){
   res.render('index');
 });
+
+// Routes
+app.route('/api/:repository/:docType/:uid').get(function(req, res){
+  // Prismic configuration
+  // TODO case for protected repository and linkResolver configuration
+  var configuration = {
+    apiEndpoint: 'https://'+req.params.repository+'.prismic.io/api',
+    // -- Access token if the Master is not open
+    // accessToken: 'xxxxxx',
+    // OAuth
+    // clientId: 'xxxxxx',
+    // clientSecret: 'xxxxxx',
+
+    // -- Links resolution rules
+    // This function will be used to generate links to Prismic.io documents
+    // As your project grows, you should update this function according to your routes
+    linkResolver: function(doc, ctx) {
+      return '/';
+    }
+  };
+
+  prismic.init(configuration);
+  //call the prismic repository with the query parameters
+  var p = prismic.withContext(req,res);
+    p.getByUID(req.params.docType, req.params.uid, function (err, postContent) {
+      if(err) return handleError(err, req, res);
+      res.render('result', {
+        postContent: postContent
+      });
+    });
+  });
 
 app.route('/preview').get(prismic.preview);
 
