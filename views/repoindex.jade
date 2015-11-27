@@ -1,5 +1,10 @@
 extends ./layout.jade
 
+block head
+    script(type='text/javascript').
+        window.repo_types = !{JSON.stringify(types)};
+        window.repo_bookmarks = !{JSON.stringify(bookmarks)};
+
 block body
     div.welcome
         h1 Simple API for #{domain}

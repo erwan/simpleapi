@@ -56,11 +56,17 @@ function init(domain) {
 }
 
 // Routes
-app.route('/').get(function(req, res){
+app.route('/').get(function(req, res) {
   var domain = parseDomain(req.headers.host);
   if (domain) {
     init(domain);
-    res.render('repoindex', {domain: domain});
+    var p = prismic.withContext(req, res, function then(err, ctx) {
+      res.render('repoindex', {
+        domain: domain,
+        types: ctx.api.data.types,
+        bookmarks: ctx.api.bookmarks
+      });
+    });
   } else {
     res.render('index');
   }
@@ -75,7 +81,7 @@ app.route('/types/:docType').get(function(req, res){
   var domain = parseDomain(req.headers.host);
   if (domain) {
     init(domain);
-    var p = prismic.withContext(req,res);
+    var p = prismic.withContext(req, res);
     p.query(prismic.Predicates.at('document.type', req.params.docType), {}, function (err, response) {
       if(err) return handleError(err, req, res);
       res.json({
@@ -98,7 +104,7 @@ app.route('/types/:docType/:uid').get(function(req, res){
   var domain = parseDomain(req.headers.host);
   if (domain) {
     init(domain);
-    var p = prismic.withContext(req,res);
+    var p = prismic.withContext(req, res);
     p.getByUID(req.params.docType, req.params.uid, function (err, postContent) {
       if(err) return handleError(err, req, res);
       delete postContent.fragments;
