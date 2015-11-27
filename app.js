@@ -120,6 +120,7 @@ app.route('/documents/:docid').get(function(req, res){
   if (req.params.docid && domain) {
     init(domain);
     var p = prismic.withContext(req,res);
+    console.log("by id ", req.params.docid)
     p.getByID(req.params.docid, function (err, postContent) {
       if(err) return handleError(err, req, res);
       delete postContent.fragments;

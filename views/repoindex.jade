@@ -25,9 +25,12 @@ block body
           | /types/
           input(type="text", name="document-type", required="true", placeholder="type")
           input(type="submit", value="Submit")
-
       h2 Documents by id
-      p TODO with autocomplete on bookmarks
+      form(name="request-api", id="form-request-3", action="/documents")
+        div.form-as-url
+          | /documents/
+          input(type="text", name="docid", required="true", placeholder="type")
+          input(type="submit", value="Submit")
 
     div.result
       div(id="api-call")
