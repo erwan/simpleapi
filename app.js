@@ -64,6 +64,9 @@ function simplifyFragment(host, data) {
     fragment = prismic.Fragments.initField(data);
     value = fragment.asText();
     break;
+  case "Link.web":
+    value = data.value.url;
+    break;
   case "Group":
     fragment = prismic.Fragments.initField(data);
     value = fragment.value.map(function(groupDoc) {
