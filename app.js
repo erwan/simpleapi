@@ -60,6 +60,7 @@ function simplifyFragment(host, data) {
   case "Date":
   case "Timestamp":
   case "Number":
+  case "Select":
     fragment = prismic.Fragments.initField(data);
     value = fragment.asText();
     break;
