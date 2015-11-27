@@ -3,10 +3,8 @@ html {
 }
 
 body {
-    background: #474f5f;
-    color: #FFF;
-    font-family: Lato, sans-serif;
-    font-weight: 300;
+    font-family: Roboto Mono, sans-serif;
+    font-weight: 400;
     font-size: 1em;
 }
 
@@ -20,13 +18,13 @@ a:hover {
 }
 
 h1 {
-    font-weight: 700;
-    font-size: 3.4rem;
-    margin-bottom: 1.25rem;
+    font-size: 2rem;
+    padding: 1rem;
+    background: #4679bd;
+    color: #FFF;
 }
 
 h2 {
-    font-weight: 700;
     font-size: 2rem;
     margin-bottom: 1.25rem;
 }
@@ -83,9 +81,6 @@ section {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	-moz-box-shadow: 2px 2px 3px #666;
-	-webkit-box-shadow: 2px 2px 3px #666;
-	box-shadow: 2px 2px 3px #666;
 	-webkit-appearance: none;
 }
 
@@ -113,11 +108,9 @@ section {
 }
 
 .homepage-form form input {
-  background: #474f5f;
   text-align: center;
   width: 220px;
   font-size: 2.5rem;
-  color: #FFF;
   position: relative;
   margin-bottom: 10px;
   outline: none;
