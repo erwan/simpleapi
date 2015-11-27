@@ -105,7 +105,10 @@ app.route('/').get(function(req, res) {
       });
     });
   } else {
-    res.render('index', { host: req.headers.host });
+    res.render('index', {
+      suffixDomain: req.headers.host,
+      host: req.headers.host
+    });
   }
 });
 
