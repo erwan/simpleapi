@@ -92,7 +92,10 @@ app.route('/types/:docType').get(function(req, res){
         total_pages: response.total_pages,
         next_page: response.next_page,
         prev_page: response.prev_page,
-        results: response.results.map(function(d){return d.data;})
+        results: response.results.map(function(d){
+          delete d.fragments;
+          return d;
+        })
       });
     });
   } else {
