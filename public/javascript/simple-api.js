@@ -12,19 +12,19 @@ $(function() {
       baseUrl = $form.attr( "action" );
 
 
-    var url = "http://" + window.location.host + [baseUrl, repository, docType, uid].filter(
+    var url = [baseUrl, repository, docType, uid].filter(
       function (val) {
         return val;
       }
     ).join('/');
     //api-call
-    $("#api-call").html("Api call : "+ url);
+    var fullUrl = "http://" + window.location.host + url;
+    $("#api-call").html("Api call : " + fullUrl);
 
     // Send the data using post
     var getting = $.get( url, {} );
     getting.done(function(data) {
-      console.log(data);
-      $("#result").html(data);
+      $("#result").val(JSON.stringify(data));
     });
   });
 });

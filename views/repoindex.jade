@@ -1,13 +1,19 @@
 extends ./layout.jade
 
+block head
+    script(type='text/javascript').
+        window.repo_types = !{JSON.stringify(types)};
+        window.repo_bookmarks = !{JSON.stringify(bookmarks)};
+
 block body
     div.welcome
         h1 Simple API for #{domain}
         p Retrieve Prismic documents with this API
+        
     section.clear(id="content")
         div.request-form
             h2 One document by uid
-            form(name="request-api", id="form-request", action="/api")
+            form(name="request-api", id="form-request", action="/types")
                 div.input
                     label(for="document-type") Document type
                     input(type="text", name="document-type", required="true")
