@@ -11,20 +11,16 @@ block body
 
   section.clear(id="content")
     div.request-form
-      h2 One document by uid
+
+      h2 Documents by type
       form(name="request-api", id="form-request", action="/types")
         div.form-as-url
           | /types/
           input(type="text", name="document-type", required="true", placeholder="type")
           | /
-          input(type="text", name="uid", required="true", placeholder="uid")
+          input(type="text", name="uid", placeholder="uid (optional)")
           input(type="submit", value="Submit")
-      h2 All documents of a type
-      form(name="request-api", id="form-request-2", action="/types")
-        div.form-as-url
-          | /types/
-          input(type="text", name="document-type", required="true", placeholder="type")
-          input(type="submit", value="Submit")
+
       h2 Documents by id
       form(name="request-api", id="form-request-3", action="/documents")
         div.form-as-url
