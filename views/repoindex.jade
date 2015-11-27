@@ -19,8 +19,13 @@ block body
           | /
           input(type="text", name="uid", required="true", placeholder="uid")
           input(type="submit", value="Submit")
-      h2 Documents by type
-      p TODO with autocomplete on type
+      h2 All documents of a type
+      form(name="request-api", id="form-request-2", action="/types")
+        div.form-as-url
+          | /types/
+          input(type="text", name="document-type", required="true", placeholder="type")
+          input(type="submit", value="Submit")
+
       h2 Documents by id
       p TODO with autocomplete on bookmarks
 
