@@ -84,7 +84,15 @@ $(function() {
     });
   });
 
-
-
+  $('input[name="document-type"]').autocomplete({
+    source: $.map(window.repo_types, function (value, key) {
+      return {
+        label: value,
+        value: key
+      }
+    }),
+    minLength: 2,
+    delay: 100
+  });
 
 });
