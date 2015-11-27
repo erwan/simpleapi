@@ -147,3 +147,7 @@ section {
   width: auto;
   color: black;
 }
+
+#docId {
+  width: 185px;
+}

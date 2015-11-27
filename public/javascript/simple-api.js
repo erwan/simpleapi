@@ -87,12 +87,27 @@ $(function() {
   $('input[name="document-type"]').autocomplete({
     source: $.map(window.repo_types, function (value, key) {
       return {
-        label: value,
+        label: key,
         value: key
       }
     }),
-    minLength: 2,
+    minLength: 0,
     delay: 100
+  }).focus(function(){
+    $(this).data("uiAutocomplete").search($(this).val());
+  });
+
+  $('input[name="docid"]').autocomplete({
+    source: $.map(window.repo_bookmarks, function (value, key) {
+      return {
+        label: key,
+        value: value
+      }
+    }),
+    minLength: 0,
+    delay: 100
+  }).focus(function(){
+    $(this).data("uiAutocomplete").search($(this).val());
   });
 
 });
