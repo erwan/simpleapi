@@ -19,21 +19,21 @@ block body
           input(type="text", name="document-type", required="true", placeholder="type")
           | /
           input(type="text", name="uid", placeholder="uid (optional)")
-          input(type="submit", value="Submit")
+          input(type="submit", value="GET")
 
       h2 Documents by id
       form(name="request-api", id="form-request-3", action="/documents")
         div.form-as-url
           | /documents/
           input(type="text", name="docid", id="docid", required="true", placeholder="id")
-          input(type="submit", value="Submit")
+          input(type="submit", value="GET")
 
       h2 Bookmarks
       form(name="request-api", id="form-request-2", action="/bookmarks")
         div.form-as-url
           | /documents/
           input(type="text", name="name", id="name", required="true", placeholder="name")
-          input(type="submit", value="Submit")
+          input(type="submit", value="GET")
 
     div.result
       div(id="api-call")

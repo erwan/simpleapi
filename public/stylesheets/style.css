@@ -101,6 +101,7 @@ section {
 
 .request-form form input[type="submit"] {
   background-color: #57D979;
+  width: auto;
   float: right;
 }
 

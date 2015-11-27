@@ -46,7 +46,7 @@ function parseDomain(host) {
 }
 
 function getSuffixDomain(host) {
-  return host.substring(host.indexOf(".") + 1, host.length)
+  return host.substring(host.indexOf(".") + 1, host.length);
 }
 
 function simplifyFragment(host, data) {
@@ -67,6 +67,10 @@ function simplifyFragment(host, data) {
   case "Link.web":
     value = data.value.url;
     break;
+  case "Link.document":
+    value = data.value.document;
+    value.href = "http://" + host + "/documents/" + value.id;
+    break;
   case "Group":
     fragment = prismic.Fragments.initField(data);
     value = fragment.value.map(function(groupDoc) {
@@ -76,7 +80,6 @@ function simplifyFragment(host, data) {
   case "SliceZone":
     // fragment = prismic.Fragments.initField(data);
     value = data.value.map(function(slice) {
-      console.log("Slice value: ", slice.value)
        return {
          "slice_type": slice.slice_type,
          "slice_label": slice.slice_label,
@@ -92,6 +95,7 @@ function simplifyFragment(host, data) {
 
 function simplifyDocument(host, prismicDoc) {
   var simple = {
+    "uid": prismicDoc.uid,
     "type": prismicDoc.type,
     "tags": prismicDoc.tags
   };
@@ -148,7 +152,7 @@ app.route('/types/:docType').get(function(req, res){
   if (domain) {
     init(domain);
     var p = prismic.withContext(req, res);
-    p.query(prismic.Predicates.at('document.type', req.params.docType), {}, function (err, response) {
+    p.query(prismic.Predicates.at('document.type', req.params.docType), req.query, function (err, response) {
       if(err) return handleError(err, req, res);
       res.json({
         page: response.page,
