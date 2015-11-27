@@ -24,7 +24,7 @@ $(function() {
     // Send the data using post
     var getting = $.get( url, {} );
     getting.done(function(data) {
-      $("#result").val(JSON.stringify(data));
+      $("#result").val(JSON.stringify(data, undefined, 4));
     });
   });
 });
