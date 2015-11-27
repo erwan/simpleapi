@@ -68,7 +68,7 @@ app.route('/').get(function(req, res) {
       });
     });
   } else {
-    res.render('index');
+    res.render('index', { host: req.headers.host });
   }
 });
 

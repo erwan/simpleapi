@@ -63,7 +63,7 @@ section {
   padding:2px;
 }
 
-.request-form form input {
+.request-form form input, .homepage-form form input[type="submit"] {
   position: relative;
   margin-bottom: 10px;
   background: #fff;
@@ -96,4 +96,30 @@ section {
 .result textarea{
   width: 100%;
   min-height: 90%;
+}
+
+.homepage-form {
+  padding-top: 100px;
+  font-size: 2.5rem;
+  text-align: center;
+}
+
+.homepage-form form input {
+  background: #474f5f;
+  text-align: center;
+  width: 220px;
+  font-size: 2.5rem;
+  color: #FFF;
+  position: relative;
+  margin-bottom: 10px;
+  outline: none;
+  border: 0;
+
+	-webkit-appearance: none;
+}
+
+.homepage-form form input[type="submit"] {
+  margin-left: 50px;
+  width: auto;
+  color: black;
 }
