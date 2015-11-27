@@ -28,6 +28,13 @@ block body
           input(type="text", name="docid", id="docid", required="true", placeholder="id")
           input(type="submit", value="Submit")
 
+      h2 Bookmarks
+      form(name="request-api", id="form-request-2", action="/bookmarks")
+        div.form-as-url
+          | /documents/
+          input(type="text", name="name", id="name", required="true", placeholder="name")
+          input(type="submit", value="Submit")
+
     div.result
       div(id="api-call")
       pre
