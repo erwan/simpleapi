@@ -24,7 +24,10 @@ $(function() {
     // Send the data using post
     var getting = $.get( url, {} );
     getting.done(function(data) {
-      $("#result").val(JSON.stringify(data, undefined, 4));
+      $("#result").html(JSON.stringify(data, undefined, 4));
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
     });
   });
 });

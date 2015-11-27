@@ -1,32 +1,33 @@
 extends ./layout.jade
 
 block head
-    script(type='text/javascript').
-        window.repo_types = !{JSON.stringify(types)};
-        window.repo_bookmarks = !{JSON.stringify(bookmarks)};
+  script(type='text/javascript').
+    window.repo_types = !{JSON.stringify(types)};
+    window.repo_bookmarks = !{JSON.stringify(bookmarks)};
 
 block body
-    div.welcome
-        h1 Simple API for #{domain}
-        p Retrieve Prismic documents with this API
-        
-    section.clear(id="content")
-        div.request-form
-            h2 One document by uid
-            form(name="request-api", id="form-request", action="/types")
-                div.input
-                    label(for="document-type") Document type
-                    input(type="text", name="document-type", required="true")
-                div.input
-                    label(for="uid") UID
-                    input(type="text", name="uid", required="true")
-                div.actions
-                    input(type="submit", value="Submit")
-            h2 Documents by type
-            p TODO with autocomplete on type
-            h2 Documents by id
-            p TODO with autocomplete on bookmarks
+  div.welcome
+    h1 Simple API for #{domain}
+    p Retrieve Prismic documents with this API
 
-        div.result
-            div(id="api-call")
-            textarea(id="result")
+  section.clear(id="content")
+    div.request-form
+      h2 One document by uid
+      form(name="request-api", id="form-request", action="/types")
+        div.input
+          label(for="document-type") Document type
+          input(type="text", name="document-type", required="true")
+        div.input
+          label(for="uid") UID
+          input(type="text", name="uid", required="true")
+        div.actions
+          input(type="submit", value="Submit")
+      h2 Documents by type
+      p TODO with autocomplete on type
+      h2 Documents by id
+      p TODO with autocomplete on bookmarks
+
+    div.result
+        div(id="api-call")
+          pre
+            code.json(id="result")
