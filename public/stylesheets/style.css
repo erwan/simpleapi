@@ -62,6 +62,7 @@ section {
 #content {
   display: table;
   table-layout: fixed;
+  height: 87%;
 }
 
 .request-form, .result {
@@ -92,13 +93,11 @@ section {
   border-left: 1px solid white;
   padding-left:2px;
   padding-top:2px;
-  overflow-x: scroll;
-  height: 87%;
 }
 
-.result textarea{
-  width: 100%;
-  min-height: 90%;
+.result pre{
+  overflow-x: scroll;
+  height: 95%;
 }
 
 .homepage-form {
