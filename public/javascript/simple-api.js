@@ -19,7 +19,7 @@ $(function() {
     ).join('/');
     //api-call
     var fullUrl = "http://" + window.location.host + url;
-    $("#api-call").html("Api call : " + fullUrl);
+    $("#api-call").html(fullUrl);
 
     // Send the data using post
     var getting = $.get( url, {} );
