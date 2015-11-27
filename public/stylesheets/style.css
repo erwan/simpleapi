@@ -18,7 +18,9 @@ a:hover {
 }
 
 h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5rem;
     padding: 1rem;
     background: #4679bd;
     color: #FFF;
