@@ -6,10 +6,9 @@ block body
     div.welcome
         h1 Prismic Simple API
         p Retrieve Prismic documents with this API
-    div.request-form
+    div.homepage-form
         form(name="torepo", id="form-torepo", action="/torepo")
-            div.input
-                label(for="repository") Repository
-                input(type="text", name="repository", required="true")
-            div.actions
-              input(type="submit", value="Submit")
+            | http://
+            input(type="text", name="repository", placeholder="repository", required="true")
+            | .#{host}
+            input(type="submit", value="GO!")
