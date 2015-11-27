@@ -43,6 +43,12 @@ section {
   padding: 0px;
 }
 
+#api-call{
+  padding:10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 .welcome {
   text-align: center;
   margin: auto;
@@ -91,6 +97,8 @@ section {
   border-left: 1px solid white;
   padding-left:2px;
   padding-top:2px;
+  overflow-x: scroll;
+  height: 87%;
 }
 
 .result textarea{
