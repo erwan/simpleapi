@@ -55,12 +55,14 @@ section {
   line-height: 2rem;
 }
 
-.request-form {
-  float:left;
-  width:25%;
-  overflow:hidden;
-  padding:2px;
-  padding:2px;
+#content {
+  display: table;
+  table-layout: fixed;
+}
+
+.request-form, .result {
+  display: table-cell;
+  width: 50%;
 }
 
 .request-form form input, .homepage-form form input[type="submit"] {
@@ -86,8 +88,6 @@ section {
 }
 
 .result {
-  float: left;
-  width: 74%;
   border-left: 1px solid white;
   padding-left:2px;
   padding-top:2px;
