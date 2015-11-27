@@ -23,7 +23,7 @@ $(function() {
     // Send the data using post
     var getting = $.get( url, {} );
     getting.done(function(data) {
-      $("#result").html(JSON.stringify(data, undefined, 4));
+      $("#result").html(JSON.stringify(data, undefined, 4).replace(/\</g, "&lt;"));
       $('pre code').each(function(i, block) {
         hljs.highlightBlock(block);
       });
@@ -50,7 +50,7 @@ $(function() {
     // Send the data using post
     var getting = $.get( url, {} );
     getting.done(function(data) {
-      $("#result").html(JSON.stringify(data, undefined, 4));
+      $("#result").html(JSON.stringify(data, undefined, 4).replace(/\</g, "&lt;"));
       $('pre code').each(function(i, block) {
         hljs.highlightBlock(block);
       });
@@ -77,7 +77,7 @@ $(function() {
     // Send the data using post
     var getting = $.get( url, {} );
     getting.done(function(data) {
-      $("#result").html(JSON.stringify(data, undefined, 4));
+      $("#result").html(JSON.stringify(data, undefined, 4).replace(/\</g, "&lt;"));
       $('pre code').each(function(i, block) {
         hljs.highlightBlock(block);
       });

@@ -45,6 +45,38 @@ function parseDomain(host) {
   return null;
 }
 
+function simplifyDocument(host, prismicDoc) {
+  var simple = {
+    "id": prismicDoc.id,
+    "type": prismicDoc.type,
+    "href": "http://" + host + "/documents/" + prismicDoc.id,
+    "tags": prismicDoc.tags
+  };
+  for (var key in prismicDoc.data) {
+    var value;
+    var data = prismicDoc.data[key];
+    var fragment = prismicDoc.fragments[key];
+    switch (data.type) {
+    case "StructuredText":
+      value = fragment.asHtml(function(doc, ctx){ return '/' + doc.type + "/" + doc.id; });
+      break;
+    case "Text":
+    case "Date":
+    case "Number":
+      value = fragment.asText();
+      break;
+    case "Group":
+      value = fragment.value.map(function(groupDoc) {
+        return simplifyDocument(host, groupDoc);
+      });
+    default:
+      value = data;
+    }
+    simple[key.split(".")[1]] = value;
+  }
+  return simple;
+}
+
 function init(domain) {
   var configuration = {
     apiEndpoint: 'https://'+domain+'.prismic.io/api',
@@ -93,8 +125,7 @@ app.route('/types/:docType').get(function(req, res){
         next_page: response.next_page,
         prev_page: response.prev_page,
         results: response.results.map(function(d){
-          delete d.fragments;
-          return d;
+          return simplifyDocument(req.headers.host, d);
         })
       });
     });
@@ -110,8 +141,11 @@ app.route('/types/:docType/:uid').get(function(req, res){
     var p = prismic.withContext(req, res);
     p.getByUID(req.params.docType, req.params.uid, function (err, postContent) {
       if(err) return handleError(err, req, res);
-      delete postContent.fragments;
-      res.json(postContent);
+      if (postContent) {
+        res.json(simplifyDocument(req.headers.host, postContent));
+      } else {
+        res.send('404 Not Found', 404);
+      }
     });
   } else {
     res.send('404 Not Found', 404);
@@ -125,8 +159,7 @@ app.route('/documents/:docid').get(function(req, res){
     var p = prismic.withContext(req,res);
     p.getByID(req.params.docid, function (err, postContent) {
       if(err) return handleError(err, req, res);
-      delete postContent.fragments;
-      res.json(postContent);
+      res.json(simplifyDocument(req.headers.host, postContent));
     });
   } else {
     res.send('404 Not Found', 404);
@@ -148,8 +181,7 @@ app.route('/bookmarks/:name').get(function(req, res){
             res.send('404 Not Found', 404);
           } else {
             var doc = response.results[0];
-            delete doc.fragments;
-            res.json(doc);
+            res.json(simplifyDocument(req.headers.host, doc));
           }
         });
       }
