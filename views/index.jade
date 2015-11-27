@@ -3,12 +3,12 @@ extends ./layout.jade
 block head
 
 block body
-    div.welcome
-        h1 Prismic Simple API
-        p Retrieve Prismic documents with this API
-    div.homepage-form
-        form(name="torepo", id="form-torepo", action="/torepo")
-            | http://
-            input(type="text", name="repository", placeholder="repository", required="true")
-            | .#{host}
-            input(type="submit", value="GO!")
+  div.welcome
+    h1 Prismic Simple API
+    p Retrieve Prismic documents with this API
+  div.homepage-form
+    form(name="torepo", id="form-torepo", action="/torepo")
+      | http://
+      input(type="text", name="repository", placeholder="repository", required="true")
+      | .#{host}
+      input(type="submit", value="GO!")

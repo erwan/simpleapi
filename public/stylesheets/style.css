@@ -9,12 +9,12 @@ body {
 }
 
 a {
-    color: #FDBD58;
+    color: white;
     text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 
 h1 {
@@ -47,6 +47,12 @@ section {
   padding:10px;
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+#logo{
+  position:absolute;
+  font-size: 46px;
+  padding: 5px;
 }
 
 .welcome {

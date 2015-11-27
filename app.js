@@ -45,6 +45,10 @@ function parseDomain(host) {
   return null;
 }
 
+function getSuffixDomain(host) {
+  return host.substring(host.indexOf(".") + 1, host.length)
+}
+
 function simplifyDocument(host, prismicDoc) {
   var simple = {
     "id": prismicDoc.id,
@@ -95,6 +99,7 @@ app.route('/').get(function(req, res) {
     var p = prismic.withContext(req, res, function then(err, ctx) {
       res.render('repoindex', {
         domain: domain,
+        suffixDomain: getSuffixDomain(req.headers.host),
         types: ctx.api.data.types,
         bookmarks: ctx.api.bookmarks
       });
