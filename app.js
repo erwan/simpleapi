@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(errorHandler());
 
 function handleError(err, req, res) {
-  if (err.status == 404) {
+  if (err.status === 404 || err.message === "empty response") {
     res.status(404).send("404 not found");
   } else {
     res.status(500).send("Error 500: " + err.message);
@@ -71,7 +71,7 @@ app.route('/torepo').get(function(req, res) {
   res.redirect("http://" + target + "." + req.headers.host);
 });
 
-app.route('/api/:docType').get(function(req, res){
+app.route('/types/:docType').get(function(req, res){
   var domain = parseDomain(req.headers.host);
   if (domain) {
     init(domain);
@@ -94,7 +94,7 @@ app.route('/api/:docType').get(function(req, res){
   }
 });
 
-app.route('/api/:docType/:uid').get(function(req, res){
+app.route('/types/:docType/:uid').get(function(req, res){
   var domain = parseDomain(req.headers.host);
   if (domain) {
     init(domain);
@@ -109,7 +109,22 @@ app.route('/api/:docType/:uid').get(function(req, res){
   }
 });
 
-app.route('/preview').get(prismic.preview);
+app.route('/documents/:docid').get(function(req, res){
+  var domain = parseDomain(req.headers.host);
+  if (req.params.docid && domain) {
+    init(domain);
+    var p = prismic.withContext(req,res);
+    p.getByID(req.params.docid, function (err, postContent) {
+      if(err) return handleError(err, req, res);
+      delete postContent.fragments;
+      res.json(postContent);
+    });
+  } else {
+    res.send('404 Not Found', 404);
+  }
+});
+
+
 
 var PORT = app.get('port');
 
