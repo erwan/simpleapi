@@ -49,34 +49,56 @@ function getSuffixDomain(host) {
   return host.substring(host.indexOf(".") + 1, host.length)
 }
 
+function simplifyFragment(host, data) {
+  var value, fragment;
+  switch (data.type) {
+  case "StructuredText":
+    fragment = prismic.Fragments.initField(data);
+    value = fragment.asHtml(function(doc, ctx){ return '/' + doc.type + "/" + doc.id; });
+    break;
+  case "Text":
+  case "Date":
+  case "Timestamp":
+  case "Number":
+    fragment = prismic.Fragments.initField(data);
+    value = fragment.asText();
+    break;
+  case "Group":
+    fragment = prismic.Fragments.initField(data);
+    value = fragment.value.map(function(groupDoc) {
+      return simplifyDocument(host, groupDoc);
+    });
+    break;
+  case "SliceZone":
+    // fragment = prismic.Fragments.initField(data);
+    value = data.value.map(function(slice) {
+      console.log("Slice value: ", slice.value)
+       return {
+         "slice_type": slice.slice_type,
+         "slice_label": slice.slice_label,
+         "value": simplifyFragment(host, slice.value)
+       };
+     });
+     break;
+  default:
+    value = data;
+  }
+  return value;
+}
+
 function simplifyDocument(host, prismicDoc) {
   var simple = {
-    "id": prismicDoc.id,
     "type": prismicDoc.type,
-    "href": "http://" + host + "/documents/" + prismicDoc.id,
     "tags": prismicDoc.tags
   };
+  if (prismicDoc.id) {
+    simple.id = prismicDoc.id;
+    simple.href = "http://" + host + "/documents/" + prismicDoc.id;
+  }
   for (var key in prismicDoc.data) {
-    var value;
     var data = prismicDoc.data[key];
-    var fragment = prismicDoc.fragments[key];
-    switch (data.type) {
-    case "StructuredText":
-      value = fragment.asHtml(function(doc, ctx){ return '/' + doc.type + "/" + doc.id; });
-      break;
-    case "Text":
-    case "Date":
-    case "Number":
-      value = fragment.asText();
-      break;
-    case "Group":
-      value = fragment.value.map(function(groupDoc) {
-        return simplifyDocument(host, groupDoc);
-      });
-    default:
-      value = data;
-    }
-    simple[key.split(".")[1]] = value;
+    var k = key.split(".")[1] || key;
+    simple[k] = simplifyFragment(host, data);
   }
   return simple;
 }
