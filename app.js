@@ -123,7 +123,6 @@ app.route('/documents/:docid').get(function(req, res){
   if (req.params.docid && domain) {
     init(domain);
     var p = prismic.withContext(req,res);
-    console.log("by id ", req.params.docid)
     p.getByID(req.params.docid, function (err, postContent) {
       if(err) return handleError(err, req, res);
       delete postContent.fragments;
@@ -134,6 +133,31 @@ app.route('/documents/:docid').get(function(req, res){
   }
 });
 
+app.route('/bookmarks/:name').get(function(req, res){
+  var domain = parseDomain(req.headers.host);
+  if (req.params.name && domain) {
+    init(domain);
+    var p = prismic.withContext(req, res, function then(err, ctx) {
+      var bookmarkId = ctx.api.bookmarks[req.params.name];
+      if (!bookmarkId) {
+        res.send('404 Not Found', 404);
+      } else {
+        ctx.api.forms('everything').ref(ctx.ref).query(prismic.Predicates.at('document.id', bookmarkId)).submit(function(err, response) {
+          if(err) return handleError(err, req, res);
+          if (response.results.length === 0) {
+            res.send('404 Not Found', 404);
+          } else {
+            var doc = response.results[0];
+            delete doc.fragments;
+            res.json(doc);
+          }
+        });
+      }
+    });
+  } else {
+    res.send('404 Not Found', 404);
+  }
+});
 
 
 var PORT = app.get('port');
